@@ -1,5 +1,6 @@
 package com.springboot.hospitalmanagement.entity;
 
+import com.springboot.hospitalmanagement.entity.type.AuthProviderType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "app_user")
+//Hear we used indexing to run our jpql(Of USerRepository where we are finding between these) fast to findByUsername with providerId and providerTypee
+@Table(name = "app_user", indexes = {
+        @Index(name = "idx_provider_id_provider_type", columnList = "providerId, providerType")
+})
 public class User implements UserDetails {
 
     @Id
@@ -23,6 +27,10 @@ public class User implements UserDetails {
     @JoinColumn(unique = true)
     private String username;
     private String password;
+
+    private String providerId;
+    @Enumerated(EnumType.STRING)
+    private AuthProviderType providerType;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

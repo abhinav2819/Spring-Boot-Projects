@@ -1,0 +1,32 @@
+spring:
+  security.oauth2.client:
+    provider:
+      twitter:
+        authorization-uri: https://twitter.com/i/oauth2/authorize
+        token-uri: https://api.twitter.com/2/oauth2/token
+        user-info-uri: https://api.twitter.com/2/users/me
+        user-name-attribute: id
+
+    registration:
+      google:
+        client-id: 1024444129294-nilruv0nuo3hkplhd2040smjbf0glvft.apps.googleusercontent.com
+        client-secret: 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
+      github:
+        client-id: Ov23livTF924hLTQpwNc
+        client-secret: 03def4d2643c04ef1134e55d2bb55696461e6ee6
+      twitter:
+        client-id: asdfasdfaaras
+        client-secret: ahhauhathuahtr
+        redirect-uri: "{baseUrl}/login/oauth2/code/twitter"
+        authorization-grant-type: authorization_code
+        scope:
+          - tweet.read
+          - users.read
+          - offline.access
+        client-name: Twitter
+        provider: twitter
+
+#springboot provides registration through GitHub, google, facebook directly and rest we have to describe like we have described
+#about the tweeter
+
+#To use Twitter as oauth2 provider we have to create developer account on the twitter, and then we have to take oauth client id nad the follow-up
