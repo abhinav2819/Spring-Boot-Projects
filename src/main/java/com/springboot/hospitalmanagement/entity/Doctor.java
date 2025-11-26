@@ -28,9 +28,13 @@ public class Doctor {
     @Column(length = 100)
     private String specialization;
 
-    @Column(nullable = false,unique = true,length = 150)
+    @Column(unique = true,length = 150)
     @Email
     private String email;
+
+    @OneToOne
+    @MapsId
+    private User user;
 
     @ManyToMany(mappedBy = "doctors")
     @ToString.Exclude

@@ -11,6 +11,8 @@ import com.springboot.hospitalmanagement.repository.PatientRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +29,7 @@ public class AppointmentService {
 
     //This method is used for the creation of the new appointment
     @Transactional
+    @Secured("ROLE_PATIENT")
     public Appointment createNewAppointment(Appointment appointment, Long doctorId,Long patientId){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
         Patient patient = patientRepository.findById(patientId).orElseThrow();
@@ -43,6 +46,9 @@ public class AppointmentService {
 
     //This method is used for reassigning the appointment to tne another doctor
     @Transactional
+    //We are using the granular level authorization level where we are using the method security
+    //Hear we have used the spring expression language for retrieving the id of the doctor
+    @PreAuthorize("hasAuthority('appointment:write') OR (#doctorId == authentication.principle.id)")
     public Appointment reAssignAppointmentToAnotherDoctor(Long appointmentId, Long doctorId){
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
@@ -63,6 +69,8 @@ public class AppointmentService {
                 .map(appointment -> modelMapper.map(appointment, AppointmentResponseDto.class)).toList();
     }
 
+    //We are using the granular level authorization level where we are using the method security
+    @PreAuthorize("hasRole('ADMIN') OR (hasRole('DOCTOR') AND #doctorId == authentication.principle.id)")
     public AppointmentResponseDto createNewPatientAppointment(CreateAppointmentResponseDto createAppointmentResponseDto) {
         Long doctorId = createAppointmentResponseDto.getDoctorId();
         Long patientId = createAppointmentResponseDto.getPatientId();

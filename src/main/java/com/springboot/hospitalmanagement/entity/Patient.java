@@ -13,6 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -43,6 +44,10 @@ public class Patient {
     private LocalDate dateOfBirth;
 
     private String gender;
+
+    @OneToOne
+    @MapsId
+    private User user;
 
     @CreationTimestamp
     @Column(updatable = false)

@@ -3,12 +3,11 @@ package com.springboot.hospitalmanagement.error;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.nio.file.AccessDeniedException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,7 +32,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException ex){
-        ApiError apiError = new ApiError("Access Denied: Insufficient permissions "+ex.getMessage(), HttpStatus.FORBIDDEN);
+        ApiError apiError = new ApiError("Access Denied: Insufficient permissions ", HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(apiError, apiError.getStatusCode());
     }
 

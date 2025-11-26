@@ -1,5 +1,6 @@
 package com.springboot.hospitalmanagement.dto;
 
+import com.springboot.hospitalmanagement.entity.type.BloodGroup;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class PatientResponseDto {
     private String email;
     private LocalDate dateOfBirth;
     private String gender;
+    private BloodGroup bloodGroup;
 }
